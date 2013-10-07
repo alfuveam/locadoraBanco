@@ -46,12 +46,12 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
         rbFeminino = new javax.swing.JRadioButton();
         rbMasculino = new javax.swing.JRadioButton();
         btLimpar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        brConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         painelFundo.setBackground(new java.awt.Color(255, 255, 255));
-        painelFundo.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.MatteBorder(null), "Cadastro de Pessoa", 2, 0, new java.awt.Font("Calibri", 0, 14))); // NOI18N
+        painelFundo.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.MatteBorder(null), "Cadastro de Pessoa", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Calibri", 0, 14))); // NOI18N
         painelFundo.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Código.:");
@@ -92,14 +92,14 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
         GrupoSexo.add(rbMasculino);
         rbMasculino.setText("Masculino");
 
-        btLimpar.setText("jButton1");
+        btLimpar.setText("Limpar");
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btLimparActionPerformed(evt);
             }
         });
 
-        jButton2.setText("jButton2");
+        brConfirmar.setText("Confirmar");
 
         javax.swing.GroupLayout painelFundoLayout = new javax.swing.GroupLayout(painelFundo);
         painelFundo.setLayout(painelFundoLayout);
@@ -151,10 +151,10 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelFundoLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(brConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btLimpar)
-                        .addGap(131, 131, 131)))
+                        .addComponent(btLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(152, 152, 152)))
                 .addContainerGap())
         );
         painelFundoLayout.setVerticalGroup(
@@ -201,7 +201,7 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(painelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btLimpar)
-                    .addComponent(jButton2))
+                    .addComponent(brConfirmar))
                 .addContainerGap())
         );
 
@@ -267,8 +267,8 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup GrupoSexo;
+    private javax.swing.JButton brConfirmar;
     private javax.swing.JButton btLimpar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
