@@ -7,13 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 public class UsuarioDAOImplements implements UsuarioDAO {
 
     private static final String INSERT = "insert into usuario (nome, login, senha, cpf, telefone, data_nascimento, sexo) values (?,?,?,?,?,?,?);";
-
+    private static final String LIST = "select * from usuario;";
+    
     @Override
     public int salve(Usuario u) {
         if (u.getCodigo() == 0) {
@@ -62,7 +64,39 @@ public class UsuarioDAOImplements implements UsuarioDAO {
 
     @Override
         public List<Usuario> listAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        List<Usuario> usuarios = new ArrayList<>();
+        
+        try {
+            con = ConnectionFactory.getConnection();
+            pstm = con.prepareStatement(LIST);
+            
+            rs = pstm.executeQuery();
+            
+            while(rs.next()){
+                Usuario u = new Usuario();
+                u.setCodigo(rs.getInt("codigo"));
+                u.setCpf(rs.getString("cpf"));
+                u.setDataNascimento(rs.getDate("data_nascimento"));
+                u.setLogin(rs.getString("login"));
+                u.setSenha(rs.getString("senha"));
+                u.setSexo(rs.getString("sexo"));
+                u.setTelefone(rs.getString("telefone"));
+                usuarios.add(u);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar as pessoas: " + e.getMessage());
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(con, pstm, rs);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+        return usuarios;
     }
 
     @Override
