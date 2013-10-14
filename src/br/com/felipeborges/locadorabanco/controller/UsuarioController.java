@@ -21,6 +21,10 @@ public class UsuarioController {
         return dao.listAll();
         
     }
+        public List<Usuario> listByNome(String nome){
+            UsuarioDAO dao = new UsuarioDAOImplements();
+            return dao.listByNome(nome);
+        }
         public boolean remove (int id){
             UsuarioDAO dao = new UsuarioDAOImplements();
             return dao.remove(id);

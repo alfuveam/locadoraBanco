@@ -15,13 +15,15 @@ import javax.swing.table.DefaultTableModel;
  * @author guest01
  */
 public class UsuarioInserirGUI extends javax.swing.JFrame {
+
     private DefaultTableModel modelo;
     private int linhaSelecionada;
+
     /**
      * Creates new form UsuarioInserirGUI
      */
     public UsuarioInserirGUI(DefaultTableModel modelo) {
-        this.modelo = modelo; 
+        this.modelo = modelo;
         initComponents();
     }
 
@@ -38,14 +40,14 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
         txCpf.setText(u.getCpf());
         txTelefone.setText(u.getTelefone());
         //Data de nascimento
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
         String data = sdf.format(u.getDataNascimento());
         txDataNascimento.setText(data);
-        
-        if(u.getSexo().equals("Feminino")){
+
+        if (u.getSexo().equals("Feminino")) {
             rbFeminino.setSelected(true);
-        }else if(u.getSexo().equals("Masculino")){
+        } else if (u.getSexo().equals("Masculino")) {
             rbMasculino.setSelected(true);
         }
     }
@@ -89,6 +91,7 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
 
         jLabel1.setText("Código.:");
 
+        txCodigo.setEditable(false);
         txCodigo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setText("Nome.:");
@@ -266,12 +269,15 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
         txDataNascimento.setText("");
         rbFeminino.setSelected(false);
         rbMasculino.setSelected(false);
-        
+
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void brConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brConfirmarActionPerformed
         Usuario u = new Usuario();
-        u.setCodigo(Integer.parseInt(txCodigo.getText()));
+        if (!(txCodigo.getText().equals("")) || (txCodigo.getText().equals(null))) {
+            u.setCodigo(Integer.parseInt(txCodigo.getText()));
+        }
+
         u.setNome(txNome.getText());
         u.setLogin(txLogin.getText());
         u.setSenha(txSenha.getText());
@@ -290,25 +296,24 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao converter a data");
         }
-        
-        UsuarioController uc = new UsuarioController();
-          if(u.getCodigo() == 0){
-          int id = uc.salvar(u);          
-          if(id > 0){
-              modelo.addRow(new Object[]{id, u.getNome(), u.getCpf(), u.getLogin()});
-              JOptionPane.showMessageDialog(null,"Usuário Cadastrado com sucesso");
-            }
-          }else{
-              int id = uc.salvar(u);
-              if(id > 0){
-                  modelo.removeRow(linhaSelecionada);
-                  modelo.addRow(new Object[]{id, u.getNome(), u.getCpf(), u.getLogin()} );
-                  JOptionPane.showMessageDialog(null, "Usuário Atualizado com sucesso");
-              }
-          }          
-        uc.salvar(u);        
-    }//GEN-LAST:event_brConfirmarActionPerformed
 
+        UsuarioController uc = new UsuarioController();
+        if (u.getCodigo() == 0) {
+            int id = uc.salvar(u);
+            if (id > 0) {
+                modelo.addRow(new Object[]{id, u.getNome(), u.getCpf(), u.getLogin()});
+                JOptionPane.showMessageDialog(null, "Usuário Cadastrado com sucesso");
+            }
+        } else {
+            int id = uc.salvar(u);
+            if (id > 0) {
+                modelo.removeRow(linhaSelecionada);
+                modelo.addRow(new Object[]{id, u.getNome(), u.getCpf(), u.getLogin()});
+                JOptionPane.showMessageDialog(null, "Usuário Atualizado com sucesso");
+            }
+        }
+        uc.salvar(u);
+    }//GEN-LAST:event_brConfirmarActionPerformed
     /**
      * @param args the command line arguments
      */

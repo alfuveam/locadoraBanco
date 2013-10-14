@@ -18,6 +18,7 @@ public class UsuarioDAOImplements implements UsuarioDAO {
     private static final String REMOVE = "delete from usuario where codigo = ?;";
     private static final String UPDATE = "update usuario set nome = ?, login = ?, senha = ?, cpf =?, telefone = ?, data_nascimento = ?, sexo = ? where codigo =?;";
     private static final String LISTBYID = "select * from usuario where codigo = ?;";
+    private static final String LISTBYNOME = "select * from usuario where nome like ?;";
     
     @Override
     public int salve(Usuario u) {
@@ -186,5 +187,40 @@ public class UsuarioDAOImplements implements UsuarioDAO {
             }
         }
         return retorno;
+    }
+
+    @Override
+    public List<Usuario> listByNome(String nome) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        List<Usuario> usuarios = new ArrayList<>();
+        try{
+            con = ConnectionFactory.getConnection();
+            pstm = con.prepareStatement(LISTBYNOME);
+            pstm.setString(1, "%" +nome+ "%");
+            rs = pstm.executeQuery();
+            while(rs.next()){
+                Usuario u = new Usuario();
+                u.setCodigo(rs.getInt("codigo"));
+                u.setNome(rs.getString("nome"));
+                u.setCpf(rs.getString("cpf"));;
+                u.setDataNascimento(rs.getDate("data_nascimento"));
+                u.setLogin(rs.getString("login"));
+                u.setSenha(rs.getString("senha"));
+                u.setTelefone(rs.getString("telefone"));
+                u.setSexo(rs.getString("sexo"));
+                usuarios.add(u);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Erro ao pesquisar usuário" + e.getMessage());
+        }finally{
+            try{
+                ConnectionFactory.closeConnection(con, pstm, rs);
+            }catch(Exception e){
+                JOptionPane.showMessageDialog(null,"Erro ao fechar a conexão"+e.getMessage());
+            }
+        }
+        return usuarios;
     }
 }

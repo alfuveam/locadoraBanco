@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author guest01
  */
 public class UsuarioListaGUI extends javax.swing.JFrame {
+
     private JTable tabela;
     private DefaultTableModel modelo = new DefaultTableModel();
 
@@ -72,6 +73,12 @@ public class UsuarioListaGUI extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Pesquisar.:");
+
+        txPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txPesquisarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PainelFundoLayout = new javax.swing.GroupLayout(PainelFundo);
         PainelFundo.setLayout(PainelFundoLayout);
@@ -137,64 +144,40 @@ public class UsuarioListaGUI extends javax.swing.JFrame {
     private void btRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoverActionPerformed
         int linhaSelecionada = -1;
         linhaSelecionada = tabela.getSelectedRow();
-        
-        if(linhaSelecionada >= 0){
-            int idUsuario = (int)tabela.getValueAt(linhaSelecionada, 0);
+
+        if (linhaSelecionada >= 0) {
+            int idUsuario = (int) tabela.getValueAt(linhaSelecionada, 0);
             UsuarioController uc = new UsuarioController();
-            if(uc.remove(idUsuario)){
-               modelo.removeRow(linhaSelecionada);
+            if (uc.remove(idUsuario)) {
+                modelo.removeRow(linhaSelecionada);
             }
-        }else{
-            JOptionPane.showMessageDialog(null,"Nenhuma linha foi selecionada");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhuma linha foi selecionada");
         }
     }//GEN-LAST:event_btRemoverActionPerformed
 
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
         int linhaSelecionada = -1;
         linhaSelecionada = tabela.getSelectedRow();
-        if(linhaSelecionada >= 0){
-            int idUsuario = (int)tabela.getValueAt(linhaSelecionada, 0);
+        if (linhaSelecionada >= 0) {
+            int idUsuario = (int) tabela.getValueAt(linhaSelecionada, 0);
             UsuarioInserirGUI ui = new UsuarioInserirGUI(modelo, linhaSelecionada, idUsuario);
             ui.setVisible(true);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Nenhuma linha foi selecionada.");
         }
     }//GEN-LAST:event_btEditarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UsuarioListaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UsuarioListaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UsuarioListaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UsuarioListaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void txPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txPesquisarActionPerformed
+        String nome = txPesquisar.getText();
+        UsuarioController uc = new UsuarioController();
+       modelo.setNumRows(0);
+        for(Usuario u: uc.listByNome(nome)){ modelo.addRow(new Object[]{ u.getCodigo(), u.getNome(), u.getCpf(), u.getLogin()});
+        
         }
-        //</editor-fold>
+    }//GEN-LAST:event_txPesquisarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new UsuarioListaGUI().setVisible(true);
-            }
-        });
-    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PainelFundo;
     private javax.swing.JButton btEditar;
@@ -204,14 +187,15 @@ public class UsuarioListaGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane painelRolagem;
     private javax.swing.JTextField txPesquisar;
     // End of variables declaration//GEN-END:variables
-private void preencherJTable(){
-    UsuarioController uc = new UsuarioController();
-    for(Usuario u : uc.listarTodos()){
-        modelo.addRow(new Object[]{
-            u.getCodigo(), u.getNome(), u.getCpf(), u.getLogin()
-        });
+    private void preencherJTable() {
+        UsuarioController uc = new UsuarioController();
+        for (Usuario u : uc.listarTodos()) {
+            modelo.addRow(new Object[]{
+                u.getCodigo(), u.getNome(), u.getCpf(), u.getLogin()
+            });
+        }
     }
-}
+
     private void criaJTable() {
         tabela = new JTable(modelo);
         modelo.addColumn("Código");
