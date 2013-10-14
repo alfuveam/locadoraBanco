@@ -4,6 +4,10 @@
  */
 package br.com.felipeborges.locadorabanco.view;
 
+import br.com.felipeborges.locadorabanco.controller.UsuarioController;
+import br.com.felipeborges.locadorabanco.model.Usuario;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,12 +16,38 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UsuarioInserirGUI extends javax.swing.JFrame {
     private DefaultTableModel modelo;
+    private int linhaSelecionada;
     /**
      * Creates new form UsuarioInserirGUI
      */
     public UsuarioInserirGUI(DefaultTableModel modelo) {
         this.modelo = modelo; 
         initComponents();
+    }
+
+    public UsuarioInserirGUI(DefaultTableModel modelo, int linhaSelecionada, int idUsuario) {
+        this.linhaSelecionada = linhaSelecionada;
+        this.modelo = modelo;
+        initComponents();
+        UsuarioController uc = new UsuarioController();
+        Usuario u = uc.listById(idUsuario);
+        txCodigo.setText(Integer.toString(u.getCodigo()));
+        txNome.setText(u.getNome());
+        txLogin.setText(u.getLogin());
+        txSenha.setText(u.getSenha());
+        txCpf.setText(u.getCpf());
+        txTelefone.setText(u.getTelefone());
+        //Data de nascimento
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        String data = sdf.format(u.getDataNascimento());
+        txDataNascimento.setText(data);
+        
+        if(u.getSexo().equals("Feminino")){
+            rbFeminino.setSelected(true);
+        }else if(u.getSexo().equals("Masculino")){
+            rbMasculino.setSelected(true);
+        }
     }
 
     /**
@@ -240,7 +270,43 @@ public class UsuarioInserirGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void brConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brConfirmarActionPerformed
-        // TODO add your handling code here:
+        Usuario u = new Usuario();
+        u.setCodigo(Integer.parseInt(txCodigo.getText()));
+        u.setNome(txNome.getText());
+        u.setLogin(txLogin.getText());
+        u.setSenha(txSenha.getText());
+        u.setTelefone(txTelefone.getText());
+        u.setCpf(txCpf.getText());
+
+        if (rbFeminino.isSelected()) {
+            u.setSexo("Feminino");
+        } else if (rbMasculino.isSelected()) {
+            u.setSexo("Masculino");
+        }
+
+        try {
+            String data = txDataNascimento.getText();
+            u.setDataNascimento(new SimpleDateFormat("dd/MM/yyyy").parse(data));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao converter a data");
+        }
+        
+        UsuarioController uc = new UsuarioController();
+          if(u.getCodigo() == 0){
+          int id = uc.salvar(u);          
+          if(id > 0){
+              modelo.addRow(new Object[]{id, u.getNome(), u.getCpf(), u.getLogin()});
+              JOptionPane.showMessageDialog(null,"Usuário Cadastrado com sucesso");
+            }
+          }else{
+              int id = uc.salvar(u);
+              if(id > 0){
+                  modelo.removeRow(linhaSelecionada);
+                  modelo.addRow(new Object[]{id, u.getNome(), u.getCpf(), u.getLogin()} );
+                  JOptionPane.showMessageDialog(null, "Usuário Atualizado com sucesso");
+              }
+          }          
+        uc.salvar(u);        
     }//GEN-LAST:event_brConfirmarActionPerformed
 
     /**

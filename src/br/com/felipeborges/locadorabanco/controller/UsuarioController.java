@@ -12,12 +12,17 @@ public class UsuarioController {
         UsuarioDAO dao = new UsuarioDAOImplements();
         return dao.salve(u);
     }
-        public List<Usuario> listarTodos(){
-        
+    public Usuario listById(int codigo){
         UsuarioDAO dao = new UsuarioDAOImplements();
-        
+        return dao.listById(codigo);
+    }
+        public List<Usuario> listarTodos(){
+        UsuarioDAO dao = new UsuarioDAOImplements();
         return dao.listAll();
         
     }
-    
+        public boolean remove (int id){
+            UsuarioDAO dao = new UsuarioDAOImplements();
+            return dao.remove(id);
+        }
 }

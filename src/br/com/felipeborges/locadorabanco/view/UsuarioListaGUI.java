@@ -6,6 +6,7 @@ package br.com.felipeborges.locadorabanco.view;
 
 import br.com.felipeborges.locadorabanco.controller.UsuarioController;
 import br.com.felipeborges.locadorabanco.model.Usuario;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,6 +58,11 @@ public class UsuarioListaGUI extends javax.swing.JFrame {
         });
 
         btEditar.setText("Editar");
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
 
         btRemover.setText("Remover");
         btRemover.addActionListener(new java.awt.event.ActionListener() {
@@ -132,10 +138,28 @@ public class UsuarioListaGUI extends javax.swing.JFrame {
         int linhaSelecionada = -1;
         linhaSelecionada = tabela.getSelectedRow();
         
-        if(linhaSelecionada > 0){
-            int idUsario = (int)tabela.getValueAt(linhaSelecionada, 0);
+        if(linhaSelecionada >= 0){
+            int idUsuario = (int)tabela.getValueAt(linhaSelecionada, 0);
+            UsuarioController uc = new UsuarioController();
+            if(uc.remove(idUsuario)){
+               modelo.removeRow(linhaSelecionada);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Nenhuma linha foi selecionada");
         }
     }//GEN-LAST:event_btRemoverActionPerformed
+
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+        int linhaSelecionada = -1;
+        linhaSelecionada = tabela.getSelectedRow();
+        if(linhaSelecionada >= 0){
+            int idUsuario = (int)tabela.getValueAt(linhaSelecionada, 0);
+            UsuarioInserirGUI ui = new UsuarioInserirGUI(modelo, linhaSelecionada, idUsuario);
+            ui.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Nenhuma linha foi selecionada.");
+        }
+    }//GEN-LAST:event_btEditarActionPerformed
 
     /**
      * @param args the command line arguments
