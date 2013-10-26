@@ -203,5 +203,8 @@ public class UsuarioListaGUI extends javax.swing.JFrame {
         modelo.addColumn("CPF");
         modelo.addColumn("Usuário");
         preencherJTable();
+
+    
     }
+        
 }

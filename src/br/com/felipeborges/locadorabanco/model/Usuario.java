@@ -12,6 +12,7 @@ public class Usuario {
     private Date dataNascimento;
     private String sexo; 
     private int codigo;
+    private Endereco endereco;
 
     public int getCodigo() {
         return codigo;
@@ -80,10 +81,16 @@ public class Usuario {
         this.sexo = sexo;
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" + "nome=" + nome + ", login=" + login + ", senha=" + senha + ", cpf=" + cpf + ", telefone=" + telefone + ", dataNascimento=" + dataNascimento + ", sexo=" + sexo + '}';
     }
-
-    
 }

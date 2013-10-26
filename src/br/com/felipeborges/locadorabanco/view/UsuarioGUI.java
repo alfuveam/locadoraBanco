@@ -215,6 +215,7 @@ public class UsuarioGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btDeleteActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        
         Usuario u = new Usuario();
         u.setNome(txNome.getText());
         u.setLogin(txLogin.getText());
